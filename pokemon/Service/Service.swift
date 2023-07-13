@@ -67,7 +67,7 @@ extension Service: APIServiceProtocol {
             let (data, _) = try await URLSession.shared.data(for: request)
             
             let decoder = JSONDecoder()
-            let result = try decoder.decode(Pokemon.self, from: data)
+            let result = try! decoder.decode(Pokemon.self, from: data)
             completion(.success(result))
         } catch {
             throw ServiceError.decodeError

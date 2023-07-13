@@ -6,12 +6,55 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct DetailView: View {
     let pokemon: PokemonCellModel?
     
     var body: some View {
-        Text(pokemon?.name ?? "")
+        VStack(alignment: .center, spacing: 10) {
+            WebImage(url: pokemon?.fullImage, options: [], context: [.imageThumbnailPixelSize : CGSize.zero])
+                .placeholder {
+                    ProgressView()
+                }
+                .resizable()
+                .frame(width: 250, height: 250)
+            HStack {
+                Spacer()
+                HStack {
+                    Text("Type: ")
+                        .font(.title)
+                        .bold()
+                    Text(pokemon?.type.capitalized ?? "")
+                        .font(.title)
+                        .bold()
+                }
+                Spacer()
+                HStack {
+                    Text("Pokédex: ")
+                        .font(.title)
+                    Text(String(pokemon?.index ?? 0))
+                        .font(.title)
+                }
+                Spacer()
+            }
+            Spacer()
+            List {
+                ForEach(pokemon?.moves ?? [], id: \.self) { moves in
+                    Text(moves.move.name)
+                }
+                .background(.white)
+            }
+            .background(.white)
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                VStack {
+                    Text(pokemon?.name.uppercased() ?? "").font(.title)
+                }
+            }
+        }
     }
 }
 

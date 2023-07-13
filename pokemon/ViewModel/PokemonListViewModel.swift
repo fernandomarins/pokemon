@@ -42,11 +42,15 @@ class PokemonListViewModel: ObservableObject {
                 try await service.fetchItem(name: name) { result in
                     switch result {
                     case .success(let item):
-                        if let url = URL(string: item.sprites.frontDefault) {
+                        if let url = URL(string: item.sprites.frontDefault),
+                           let fullImageUrl = URL(string: item.sprites.other.dreamWorld.frontDefault) {
                             let pokemon = PokemonCellModel(
                                 name: name,
                                 type: item.types[0].type.name,
-                                image: url
+                                image: url,
+                                index: item.id,
+                                moves: item.moves,
+                                fullImage: fullImageUrl
                             )
                             DispatchQueue.main.async { [weak self] in
                                 self?.pokemonCellList.append(pokemon)
