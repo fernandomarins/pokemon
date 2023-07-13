@@ -11,22 +11,45 @@ struct ContentView: View {
     @StateObject var viewModel = PokemonListViewModel()
     
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(viewModel.pokemonCellList, id: \.self) { pokemon in
-                    HStack {
-                        Text(pokemon.name.capitalized)
-                        Spacer()
-                        Text(pokemon.type.capitalized)
-                        Spacer()
-                        AsyncImage(url: pokemon.image) { image in
-                            image
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 100, height: 100)
-                        } placeholder: {
-                            ProgressView()
+        NavigationStack {
+            GeometryReader { proxy in
+                List {
+                    ForEach(viewModel.pokemonCellList, id: \.self) { pokemon in
+                        HStack {
+                            AsyncImage(url: pokemon.image) { image in
+                                image
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 100, height: 100)
+                            } placeholder: {
+                                ProgressView()
+                            }
+                            Spacer()
+                            VStack(alignment: .center) {
+                                Text(pokemon.name.uppercased())
+                                    .bold()
+                                    .font(.body)
+                                Spacer()
+                                Text(pokemon.type)
+                                    
+                            }
+                            Spacer()
                         }
+                    }
+                    .listRowBackground(
+                        Capsule(style: .continuous)
+                            .fill(Color.white)
+                            .padding(2)
+                            .frame(width: proxy.size.width * 0.9, height: 100)
+                    )
+                    .listRowSeparator(.hidden)
+                }
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    VStack {
+                        Text("Pokémon List").font(.title)
                     }
                 }
             }
