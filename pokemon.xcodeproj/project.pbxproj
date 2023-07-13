@@ -20,6 +20,7 @@
 		555D52CD2A5F6D9E00349EC2 /* ServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555D52CC2A5F6D9E00349EC2 /* ServiceProtocol.swift */; };
 		555D52CF2A5F7FCC00349EC2 /* PokemonListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555D52CE2A5F7FCC00349EC2 /* PokemonListViewModel.swift */; };
 		555D52D12A60252400349EC2 /* PokemonCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555D52D02A60252400349EC2 /* PokemonCellModel.swift */; };
+		555D52D62A60396400349EC2 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555D52D52A60396400349EC2 /* DetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,7 @@
 		555D52CC2A5F6D9E00349EC2 /* ServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProtocol.swift; sourceTree = "<group>"; };
 		555D52CE2A5F7FCC00349EC2 /* PokemonListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonListViewModel.swift; sourceTree = "<group>"; };
 		555D52D02A60252400349EC2 /* PokemonCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonCellModel.swift; sourceTree = "<group>"; };
+		555D52D52A60396400349EC2 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +110,7 @@
 			children = (
 				5505CB502A5F4CD9007CAEC6 /* pokemonApp.swift */,
 				5505CB522A5F4CD9007CAEC6 /* ContentView.swift */,
+				555D52D52A60396400349EC2 /* DetailView.swift */,
 				555D52D42A60311E00349EC2 /* ViewModel */,
 				555D52D22A60310900349EC2 /* Service */,
 				555D52D32A60311900349EC2 /* Model */,
@@ -300,6 +303,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5505CB532A5F4CD9007CAEC6 /* ContentView.swift in Sources */,
+				555D52D62A60396400349EC2 /* DetailView.swift in Sources */,
 				5505CB512A5F4CD9007CAEC6 /* pokemonApp.swift in Sources */,
 				5505CB7B2A5F4CF0007CAEC6 /* Service.swift in Sources */,
 				555D52D12A60252400349EC2 /* PokemonCellModel.swift in Sources */,

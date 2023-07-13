@@ -29,18 +29,22 @@ struct ContentView: View {
                                 Text(pokemon.name.uppercased())
                                     .bold()
                                     .font(.body)
-                                Spacer()
                                 Text(pokemon.type)
                                     
                             }
                             Spacer()
+                            NavigationLink {
+                                DetailView(pokemon: pokemon)
+                            } label: {}
+                                .fixedSize()
+                                .navigationTitle("List")
                         }
                     }
                     .listRowBackground(
                         Capsule(style: .continuous)
                             .fill(Color.white)
                             .padding(2)
-                            .frame(width: proxy.size.width * 0.9, height: 100)
+                            .frame(width: proxy.size.width * 0.9, height: 110)
                     )
                     .listRowSeparator(.hidden)
                 }
@@ -60,6 +64,10 @@ struct ContentView: View {
                 await viewModel.fetchPokemonURL()
             }
         }
+    }
+    
+    func navigate(pokemon: PokemonCellModel) {
+        DetailView(pokemon: pokemon)
     }
 }
 
