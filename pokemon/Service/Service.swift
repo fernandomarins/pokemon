@@ -20,6 +20,7 @@ class Service {
         
         case list
         case pokemon(name: String)
+        case type(id: String)
         
         var stringValue: String {
             switch self {
@@ -27,6 +28,8 @@ class Service {
                 return EndPoints.base + "/pokemon?limit=151"
             case let .pokemon(name):
                 return EndPoints.base + "/pokemon/\(name)"
+            case let .type(id):
+                return EndPoints.base + "/type/\(id)/"
             }
         }
         
@@ -49,7 +52,7 @@ extension Service: APIServiceProtocol {
             let (data, _) = try await URLSession.shared.data(for: request)
             
             let decoder = JSONDecoder()
-            let result = try! decoder.decode(PokemonResult.self, from: data)
+            let result = try decoder.decode(PokemonResult.self, from: data)
             completion(.success(result))
         } catch {
             throw ServiceError.decodeError
@@ -68,6 +71,24 @@ extension Service: APIServiceProtocol {
             
             let decoder = JSONDecoder()
             let result = try! decoder.decode(Pokemon.self, from: data)
+            completion(.success(result))
+        } catch {
+            throw ServiceError.decodeError
+        }
+    }
+    
+    func fetchType(id: String, completion: @escaping (Result<PokemonType, ServiceError>) -> Void) async throws {
+        guard let url = EndPoints.type(id: id).url else {
+            throw ServiceError.badURL
+        }
+        
+        let request = URLRequest(url: url)
+        
+        do {
+            let (data, _) = try await URLSession.shared.data(for: request)
+            
+            let decoder = JSONDecoder()
+            let result = try decoder.decode(PokemonType.self, from: data)
             completion(.success(result))
         } catch {
             throw ServiceError.decodeError
