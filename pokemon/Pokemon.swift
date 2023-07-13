@@ -8,15 +8,25 @@
 import Foundation
 
 // MARK: - Breeds
-struct Pokemon: Codable {
+struct Pokemon: Codable, Identifiable {
+    let id: Int
     let sprites: Sprites
+    let types: [TypeElement]
 }
 
-class Sprites: Codable {
+struct Sprites: Codable {
     let frontDefault: String
     enum CodingKeys: String, CodingKey {
         case frontDefault = "front_default"
     }
+}
+
+struct TypeElement: Codable {
+    let type: Species
+}
+
+struct Species: Codable {
+    let name: String
 }
 
 // MARK: - Ability
@@ -24,18 +34,12 @@ struct Ability: Codable {
     let ability: Species
     let isHidden: Bool
     let slot: Int
-
+    
     enum CodingKeys: String, CodingKey {
         case ability
         case isHidden
         case slot
     }
-}
-
-// MARK: - Species
-struct Species: Codable {
-    let name: String
-    let url: String
 }
 
 // MARK: - GameIndex

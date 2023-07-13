@@ -13,26 +13,19 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List {
-                HStack {
-                    VStack {
-                        ForEach(viewModel.pokemons, id: \.name) { pokemon in
-                            Text(pokemon.name.capitalized)
-                                .frame(height: 100)
-                        }
-                    }
-
-                    Spacer()
-                    
-                    VStack {
-                        ForEach(viewModel.pokemonImageURLs, id: \.self) { image in
-                            AsyncImage(url: image) { image in
-                                image
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 100, height: 100)
-                            } placeholder: {
-                                ProgressView()
-                            }
+                ForEach(viewModel.pokemonCellList, id: \.self) { pokemon in
+                    HStack {
+                        Text(pokemon.name.capitalized)
+                        Spacer()
+                        Text(pokemon.type.capitalized)
+                        Spacer()
+                        AsyncImage(url: pokemon.image) { image in
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 100, height: 100)
+                        } placeholder: {
+                            ProgressView()
                         }
                     }
                 }
@@ -46,7 +39,6 @@ struct ContentView: View {
         }
     }
 }
-
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
