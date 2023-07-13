@@ -11,7 +11,7 @@ Favorites: Save favorite Pokémon for quick access in the future.
 
 ## Screenshots
 
-![Simulator Screen Shot - iPhone 14 Pro - 2023-07-13 at 19 16 17](https://github.com/fernandomarins/pokemon/assets/11571895/48cde1cf-7506-40a0-97c9-2dfcff9c8fe5)
+![Simulator Screen Shot - iPhone 14 Pro - 2023-07-13 at 19 16 17](https://github.com/fernandomarins/pokemon/assets/11571895/48cde1cf-7506-40a0-97c9-2dfcff9c8fe5 =250x)
 ![Simulator Screen Shot - iPhone 14 Pro - 2023-07-13 at 19 16 34](https://github.com/fernandomarins/pokemon/assets/11571895/d20913f1-e8c6-49cd-94ef-c5a1d74565af)
 
 ## Requirements
