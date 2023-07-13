@@ -27,12 +27,12 @@ struct DetailView: View {
                         .bold()
                     Text(pokemon?.type.capitalized ?? "")
                         .font(.title)
-                        .bold()
                 }
                 Spacer()
                 HStack {
                     Text("Pokédex: ")
                         .font(.title)
+                        .bold()
                     Text(String(pokemon?.index ?? 0))
                         .font(.title)
                 }
@@ -41,7 +41,7 @@ struct DetailView: View {
             Spacer()
             List {
                 ForEach(pokemon?.moves ?? [], id: \.self) { moves in
-                    Text(moves.move.name)
+                    Text(moves.move.name.capitalized)
                 }
                 .background(.white)
             }
@@ -51,7 +51,9 @@ struct DetailView: View {
         .toolbar {
             ToolbarItem(placement: .principal) {
                 VStack {
-                    Text(pokemon?.name.uppercased() ?? "").font(.title)
+                    Text(pokemon?.name.uppercased() ?? "")
+                        .font(.title)
+                        .bold()
                 }
             }
         }

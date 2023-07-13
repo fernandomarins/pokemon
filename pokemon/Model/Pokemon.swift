@@ -8,14 +8,14 @@
 import Foundation
 
 // MARK: - Breeds
-struct Pokemon: Codable, Identifiable {
+struct Pokemon: Decodable, Identifiable {
     let id: Int
     let sprites: Sprites
     let types: [TypeElement]
     let moves: [Moves]
 }
 
-struct Sprites: Codable {
+struct Sprites: Decodable {
     let frontDefault: String
     let other: Other
     enum CodingKeys: String, CodingKey {
@@ -24,21 +24,21 @@ struct Sprites: Codable {
     }
 }
 
-struct Other: Codable {
+struct Other: Decodable {
     let dreamWorld: DreamWorld
     enum CodingKeys: String, CodingKey {
         case dreamWorld = "dream_world"
     }
 }
 
-struct DreamWorld: Codable {
+struct DreamWorld: Decodable {
     let frontDefault: String
     enum CodingKeys: String, CodingKey {
         case frontDefault = "front_default"
     }
 }
 
-struct Moves: Codable, Hashable {
+struct Moves: Decodable, Hashable {
     let move: Move
     
     static func == (lhs: Moves, rhs: Moves) -> Bool {
@@ -50,20 +50,20 @@ struct Moves: Codable, Hashable {
     }
 }
 
-struct Move: Codable {
+struct Move: Decodable {
     let name: String
 }
 
-struct TypeElement: Codable {
+struct TypeElement: Decodable {
     let type: Species
 }
 
-struct Species: Codable {
+struct Species: Decodable {
     let name: String
 }
 
 // MARK: - Ability
-struct Ability: Codable {
+struct Ability: Decodable {
     let ability: Species
     let isHidden: Bool
     let slot: Int
@@ -73,27 +73,5 @@ struct Ability: Codable {
         case isHidden
         case slot
     }
-}
-
-// MARK: - GameIndex
-struct GameIndex: Codable {
-    let gameIndex: Int
-    let version: Species
-
-    enum CodingKeys: String, CodingKey {
-        case gameIndex
-        case version
-    }
-}
-
-// MARK: - OfficialArtwork
-struct OfficialArtwork: Codable {
-    let frontDefault, frontShiny: String
-}
-
-// MARK: - Stat
-struct Stat: Codable {
-    let baseStat, effort: Int
-    let stat: Species
 }
 
