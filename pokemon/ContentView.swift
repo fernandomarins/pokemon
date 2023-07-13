@@ -65,10 +65,6 @@ struct ContentView: View {
             }
         }
     }
-    
-    func navigate(pokemon: PokemonCellModel) {
-        DetailView(pokemon: pokemon)
-    }
 }
 
 struct ContentView_Previews: PreviewProvider {
