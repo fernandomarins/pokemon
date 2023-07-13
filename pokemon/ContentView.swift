@@ -8,16 +8,26 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var viewModel = PokemonListViewModel()
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        NavigationView {
+            List {
+                ForEach(viewModel.pokemons, id: \.name) {
+                    Text($0.name)
+                }
+            }
         }
-        .padding()
+        .onAppear {
+            Task {
+                do {
+                    await viewModel.fetchPokemonList()
+                }
+            }
+        }
     }
 }
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

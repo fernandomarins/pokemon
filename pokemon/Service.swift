@@ -38,10 +38,9 @@ class Service {
 
 extension Service: APIServiceProtocol {
     
-    func fetchList(completion: @escaping (Result<PokemonList, ServiceError>) -> Void) async {
+    func fetchList(completion: @escaping (Result<PokemonResult, ServiceError>) -> Void) async throws {
         guard let url = EndPoints.list.url else {
-            completion(.failure(.badURL))
-            return
+            throw ServiceError.badURL
         }
         
         let request = URLRequest(url: url)
@@ -50,18 +49,17 @@ extension Service: APIServiceProtocol {
             let (data, _) = try await URLSession.shared.data(for: request)
             
             let decoder = JSONDecoder()
-            let result = try decoder.decode(PokemonList.self, from: data)
+            let result = try! decoder.decode(PokemonResult.self, from: data)
             completion(.success(result))
             // Use the decoded result here
         } catch {
-            completion(.failure(.decodeError))
+            throw ServiceError.decodeError
         }
     }
     
-    func fetchItem(completion: @escaping (Result<Pokemon, ServiceError>) -> Void) async {
+    func fetchItem(completion: @escaping (Result<Pokemon, ServiceError>) -> Void) async throws {
         guard let url = URL(string: "https://pokeapi.co/api/v2") else {
-            completion(.failure(.badURL))
-            return
+            throw ServiceError.badURL
         }
         
         let request = URLRequest(url: url)
@@ -74,7 +72,7 @@ extension Service: APIServiceProtocol {
             completion(.success(result))
             // Use the decoded result here
         } catch {
-            completion(.failure(.decodeError))
+            throw ServiceError.decodeError
         }
     }
 }

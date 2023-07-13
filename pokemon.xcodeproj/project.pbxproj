@@ -18,6 +18,7 @@
 		555D52C92A5F6D0800349EC2 /* Pokemon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555D52C82A5F6D0700349EC2 /* Pokemon.swift */; };
 		555D52CB2A5F6D2600349EC2 /* PokemonList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555D52CA2A5F6D2600349EC2 /* PokemonList.swift */; };
 		555D52CD2A5F6D9E00349EC2 /* ServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555D52CC2A5F6D9E00349EC2 /* ServiceProtocol.swift */; };
+		555D52CF2A5F7FCC00349EC2 /* PokemonListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555D52CE2A5F7FCC00349EC2 /* PokemonListViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,7 @@
 		555D52C82A5F6D0700349EC2 /* Pokemon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pokemon.swift; sourceTree = "<group>"; };
 		555D52CA2A5F6D2600349EC2 /* PokemonList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonList.swift; sourceTree = "<group>"; };
 		555D52CC2A5F6D9E00349EC2 /* ServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceProtocol.swift; sourceTree = "<group>"; };
+		555D52CE2A5F7FCC00349EC2 /* PokemonListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonListViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +106,7 @@
 			children = (
 				5505CB502A5F4CD9007CAEC6 /* pokemonApp.swift */,
 				5505CB522A5F4CD9007CAEC6 /* ContentView.swift */,
+				555D52CE2A5F7FCC00349EC2 /* PokemonListViewModel.swift */,
 				5505CB7A2A5F4CF0007CAEC6 /* Service.swift */,
 				555D52CC2A5F6D9E00349EC2 /* ServiceProtocol.swift */,
 				555D52C82A5F6D0700349EC2 /* Pokemon.swift */,
@@ -273,6 +276,7 @@
 				5505CB512A5F4CD9007CAEC6 /* pokemonApp.swift in Sources */,
 				5505CB7B2A5F4CF0007CAEC6 /* Service.swift in Sources */,
 				555D52CD2A5F6D9E00349EC2 /* ServiceProtocol.swift in Sources */,
+				555D52CF2A5F7FCC00349EC2 /* PokemonListViewModel.swift in Sources */,
 				555D52C92A5F6D0800349EC2 /* Pokemon.swift in Sources */,
 				555D52CB2A5F6D2600349EC2 /* PokemonList.swift in Sources */,
 			);

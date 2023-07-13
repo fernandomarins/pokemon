@@ -13,8 +13,8 @@ protocol URLSessionProtocol {
 }
 
 protocol APIServiceProtocol {
-    func fetchList(completion: @escaping (Result<PokemonList, ServiceError>) -> Void) async
-    func fetchItem(completion: @escaping (Result<Pokemon, ServiceError>) -> Void) async
+    func fetchList(completion: @escaping (Result<PokemonResult, ServiceError>) -> Void) async throws
+    func fetchItem(completion: @escaping (Result<Pokemon, ServiceError>) -> Void) async throws
 }
 
 extension URLSession: URLSessionProtocol {
