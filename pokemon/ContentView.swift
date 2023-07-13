@@ -9,12 +9,13 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject var viewModel = PokemonListViewModel()
+    @State private var searchText = String()
     
     var body: some View {
         NavigationStack {
             GeometryReader { proxy in
                 List {
-                    ForEach(viewModel.pokemonCellList, id: \.self) { pokemon in
+                    ForEach(searchResults, id: \.self) { pokemon in
                         HStack {
                             AsyncImage(url: pokemon.image) { image in
                                 image
@@ -63,6 +64,15 @@ struct ContentView: View {
                 await viewModel.fetchPokemonList()
                 await viewModel.fetchPokemonURL()
             }
+        }
+        .searchable(text: $searchText, prompt: "Type the Pokémon name")
+    }
+    
+    var searchResults: [PokemonCellModel] {
+        if searchText.isEmpty {
+            return viewModel.pokemonCellList
+        } else {
+            return viewModel.pokemonCellList.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
         }
     }
 }

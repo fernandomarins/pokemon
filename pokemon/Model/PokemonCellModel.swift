@@ -14,6 +14,7 @@ struct PokemonCellModel: Hashable {
     let index: Int
     let moves: [Moves]
     let fullImage: URL
+    let fullImageShiny: URL
     
     static func == (lhs: PokemonCellModel, rhs: PokemonCellModel) -> Bool {
         lhs.index == rhs.index
