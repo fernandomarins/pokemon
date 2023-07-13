@@ -12,6 +12,8 @@ class DetailViewViewModel: ObservableObject {
     private var strongAgainstList = [String]()
     @Published var strongTypesList = [UIImage]()
     @Published var weakTypesList = [UIImage]()
+    @Published var isEmptyStrong: Bool = true
+    @Published var isEmptyWeak: Bool = true
     
     let service: APIServiceProtocol
     init(service: APIServiceProtocol = Service()) {
@@ -42,12 +44,14 @@ class DetailViewViewModel: ObservableObject {
                         appendNamesToStrongList(damageRelations.noDamageFrom.map(\.name))
                         
                         self?.createImagesList()
+                        self?.checkIfEmpty()
                     }
                 case let .failure(error):
                     print(error.localizedDescription)
                 }
             }
         } catch {
+            checkIfEmpty()
             print(error)
         }
     }
@@ -61,6 +65,13 @@ class DetailViewViewModel: ObservableObject {
         weakAgainstList.forEach {
             let image = UIImage(named: $0)  ?? UIImage()
             weakTypesList.append(image)
+        }
+    }
+    
+    private func checkIfEmpty() {
+        DispatchQueue.main.async {
+            self.isEmptyStrong = self.strongAgainstList.isEmpty
+            self.isEmptyWeak = self.weakAgainstList.isEmpty
         }
     }
 }

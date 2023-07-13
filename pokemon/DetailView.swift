@@ -41,24 +41,32 @@ struct DetailView: View {
             }
             
             VStack(alignment: .center) {
-                HStack(alignment: .center) {
-                    Text("Strong against:")
-                        .bold()
-                    ForEach(viewModel.strongTypesList, id: \.self) {
-                        Image(uiImage: $0)
-                            .frame(width: 30, height: 30)
-                            .aspectRatio(contentMode: .fit)
+                if !viewModel.isEmptyStrong {
+                    HStack(alignment: .center) {
+                        Text("Strong against:")
+                            .bold()
+                        ForEach(viewModel.strongTypesList, id: \.self) {
+                            Image(uiImage: $0)
+                                .frame(width: 30, height: 30)
+                                .aspectRatio(contentMode: .fit)
+                            if viewModel.isEmptyStrong {
+                                Text("oi")
+                            }
+                        }
                     }
                 }
-                HStack(alignment: .center) {
-                    Text("Weak against:")
-                        .bold()
-                    ForEach(viewModel.weakTypesList, id: \.self) {
-                        Image(uiImage: $0)
-                            .frame(width: 30, height: 30)
-                            .aspectRatio(contentMode: .fit)
+                if !viewModel.isEmptyWeak {
+                    HStack(alignment: .center) {
+                        Text("Weak against:")
+                            .bold()
+                        ForEach(viewModel.weakTypesList, id: \.self) {
+                            Image(uiImage: $0)
+                                .frame(width: 30, height: 30)
+                                .aspectRatio(contentMode: .fit)
+                        }
                     }
                 }
+                
             }
             List {
                 ForEach(pokemon?.moves ?? [], id: \.self) { moves in
