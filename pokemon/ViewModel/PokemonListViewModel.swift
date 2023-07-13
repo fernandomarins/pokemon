@@ -43,14 +43,16 @@ class PokemonListViewModel: ObservableObject {
                     switch result {
                     case .success(let item):
                         if let url = URL(string: item.sprites.frontDefault),
-                           let fullImageUrl = URL(string: item.sprites.other.dreamWorld.frontDefault) {
+                           let fullImageUrl = URL(string: item.sprites.other.home.frontDefault),
+                           let fullImageShinyUrl = URL(string: item.sprites.other.home.frontShiny) {
                             let pokemon = PokemonCellModel(
                                 name: name,
                                 type: item.types[0].type.name,
                                 image: url,
                                 index: item.id,
                                 moves: item.moves,
-                                fullImage: fullImageUrl
+                                fullImage: fullImageUrl,
+                                fullImageShiny: fullImageShinyUrl
                             )
                             DispatchQueue.main.async { [weak self] in
                                 self?.pokemonCellList.append(pokemon)

@@ -25,16 +25,18 @@ struct Sprites: Decodable {
 }
 
 struct Other: Decodable {
-    let dreamWorld: DreamWorld
+    let home: Home
     enum CodingKeys: String, CodingKey {
-        case dreamWorld = "dream_world"
+        case home
     }
 }
 
-struct DreamWorld: Decodable {
+struct Home: Decodable {
     let frontDefault: String
+    let frontShiny: String
     enum CodingKeys: String, CodingKey {
         case frontDefault = "front_default"
+        case frontShiny = "front_shiny"
     }
 }
 
@@ -60,18 +62,5 @@ struct TypeElement: Decodable {
 
 struct Species: Decodable {
     let name: String
-}
-
-// MARK: - Ability
-struct Ability: Decodable {
-    let ability: Species
-    let isHidden: Bool
-    let slot: Int
-    
-    enum CodingKeys: String, CodingKey {
-        case ability
-        case isHidden
-        case slot
-    }
 }
 
