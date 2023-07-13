@@ -51,14 +51,13 @@ extension Service: APIServiceProtocol {
             let decoder = JSONDecoder()
             let result = try! decoder.decode(PokemonResult.self, from: data)
             completion(.success(result))
-            // Use the decoded result here
         } catch {
             throw ServiceError.decodeError
         }
     }
     
-    func fetchItem(completion: @escaping (Result<Pokemon, ServiceError>) -> Void) async throws {
-        guard let url = URL(string: "https://pokeapi.co/api/v2") else {
+    func fetchItem(name: String, completion: @escaping (Result<Pokemon, ServiceError>) -> Void) async throws {
+        guard let url = EndPoints.pokemon(name: name).url else {
             throw ServiceError.badURL
         }
         
@@ -70,7 +69,6 @@ extension Service: APIServiceProtocol {
             let decoder = JSONDecoder()
             let result = try decoder.decode(Pokemon.self, from: data)
             completion(.success(result))
-            // Use the decoded result here
         } catch {
             throw ServiceError.decodeError
         }

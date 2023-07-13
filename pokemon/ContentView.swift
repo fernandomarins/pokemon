@@ -13,16 +13,35 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(viewModel.pokemons, id: \.name) {
-                    Text($0.name)
+                HStack {
+                    VStack {
+                        ForEach(viewModel.pokemons, id: \.name) { pokemon in
+                            Text(pokemon.name.capitalized)
+                                .frame(height: 100)
+                        }
+                    }
+
+                    Spacer()
+                    
+                    VStack {
+                        ForEach(viewModel.pokemonImageURLs, id: \.self) { image in
+                            AsyncImage(url: image) { image in
+                                image
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 100, height: 100)
+                            } placeholder: {
+                                ProgressView()
+                            }
+                        }
+                    }
                 }
             }
         }
         .onAppear {
             Task {
-                do {
-                    await viewModel.fetchPokemonList()
-                }
+                await viewModel.fetchPokemonList()
+                await viewModel.fetchPokemonURL()
             }
         }
     }
