@@ -17,8 +17,8 @@ struct DetailView: View {
     
     var body: some View {
         NavigationStack {
-            VStack(alignment: .center) {
-                WebImage(url: imageURL, options: [], context: [.imageThumbnailPixelSize : CGSize.zero])
+            VStack(alignment: .center, spacing: 10) {
+                WebImage(url: imageURL, options: [], context: [.imageThumbnailPixelSize: CGSize.zero])
                     .placeholder {
                         ProgressView()
                     }
