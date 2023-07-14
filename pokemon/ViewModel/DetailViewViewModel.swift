@@ -8,12 +8,7 @@
 import SwiftUI
 
 class DetailViewViewModel: ObservableObject {
-    private var weakAgainstList = [String]()
-    private var strongAgainstList = [String]()
-    @Published var strongTypesList = [UIImage]()
-    @Published var weakTypesList = [UIImage]()
-    @Published var isEmptyStrong: Bool = true
-    @Published var isEmptyWeak: Bool = true
+    @Published var pokemonDetailModel: PokemonDetailModel?
     
     let service: APIServiceProtocol
     init(service: APIServiceProtocol = Service()) {
@@ -29,12 +24,15 @@ class DetailViewViewModel: ObservableObject {
                     DispatchQueue.main.async { [weak self] in
                         let damageRelations = pokemon.damageRelations
                         
+                        var weakAgainstList = [String]()
+                        var strongAgainstList = [String]()
+                        
                         let appendNamesToWeakList = { (names: [String]) in
-                            self?.weakAgainstList.append(contentsOf: names)
+                            weakAgainstList.append(contentsOf: names)
                         }
                         
                         let appendNamesToStrongList = { (names: [String]) in
-                            self?.strongAgainstList.append(contentsOf: names)
+                            strongAgainstList.append(contentsOf: names)
                         }
                         
                         appendNamesToWeakList(damageRelations.noDamageTo.map(\.name))
@@ -43,35 +41,45 @@ class DetailViewViewModel: ObservableObject {
                         appendNamesToStrongList(damageRelations.doubleDamageTo.map(\.name))
                         appendNamesToStrongList(damageRelations.noDamageFrom.map(\.name))
                         
-                        self?.createImagesList()
-                        self?.checkIfEmpty()
+                        var strongTypesList = [UIImage]()
+                        var weakTypesList = [UIImage]()
+                        
+                        self?.createImagesList(arrayString: weakAgainstList, arrayImage: &weakTypesList)
+                        self?.createImagesList(arrayString: strongAgainstList, arrayImage: &strongTypesList)
+                        
+                        self?.pokemonDetailModel = PokemonDetailModel(
+                            weakList: weakAgainstList,
+                            weakImages: weakTypesList,
+                            strongList: strongAgainstList,
+                            strongImages: strongTypesList
+                        )
                     }
                 case let .failure(error):
                     print(error.localizedDescription)
                 }
             }
         } catch {
-            checkIfEmpty()
+//            checkIfEmpty()
             print(error)
         }
     }
     
-    private func createImagesList() {
-        strongAgainstList.forEach {
+    private func createImagesList(arrayString: [String], arrayImage: inout [UIImage]) {
+        arrayString.forEach {
             let image = UIImage(named: $0) ?? UIImage()
-            strongTypesList.append(image)
+            arrayImage.append(image)
         }
         
-        weakAgainstList.forEach {
-            let image = UIImage(named: $0)  ?? UIImage()
-            weakTypesList.append(image)
-        }
+//        weakAgainstList.forEach {
+//            let image = UIImage(named: $0)  ?? UIImage()
+//            weakTypesList.append(image)
+//        }
     }
     
-    private func checkIfEmpty() {
-        DispatchQueue.main.async {
-            self.isEmptyStrong = self.strongAgainstList.isEmpty
-            self.isEmptyWeak = self.weakAgainstList.isEmpty
-        }
-    }
+//    private func checkIfEmpty() {
+//        DispatchQueue.main.async {
+//            self.isEmptyStrong = self.strongAgainstList.isEmpty
+//            self.isEmptyWeak = self.weakAgainstList.isEmpty
+//        }
+//    }
 }

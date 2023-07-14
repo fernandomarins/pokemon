@@ -9,12 +9,11 @@ import SwiftUI
 import Foundation
 
 class PokemonListViewModel: ObservableObject {
+    static let storedKey = "pokemon"
     
     @Published var pokemonList = [PokemonList]()
     @Published var pokemonNames = [String]()
     @Published var pokemonCellList = [PokemonCellModel]()
-    
-    static let storedKey = "pokemon"
     
     let service: APIServiceProtocol
     init(service: APIServiceProtocol = Service()) {

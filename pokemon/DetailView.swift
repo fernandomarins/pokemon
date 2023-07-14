@@ -48,25 +48,22 @@ struct DetailView: View {
                     Spacer()
                 }
                 VStack(alignment: .center) {
-                    if !viewModel.isEmptyStrong {
+                    if !(viewModel.pokemonDetailModel?.isStrongEmpty ?? false) {
                         HStack(alignment: .center) {
                             Text("Strong against:")
                                 .bold()
-                            ForEach(viewModel.strongTypesList, id: \.self) {
+                            ForEach(viewModel.pokemonDetailModel?.strongImages ?? [], id: \.self) {
                                 Image(uiImage: $0)
                                     .frame(width: 30, height: 30)
                                     .aspectRatio(contentMode: .fit)
-                                if viewModel.isEmptyStrong {
-                                    Text("oi")
-                                }
                             }
                         }
                     }
-                    if !viewModel.isEmptyWeak {
+                    if !(viewModel.pokemonDetailModel?.isWeakEmpty ?? false) {
                         HStack(alignment: .center) {
                             Text("Weak against:")
                                 .bold()
-                            ForEach(viewModel.weakTypesList, id: \.self) {
+                            ForEach(viewModel.pokemonDetailModel?.weakImages ?? [], id: \.self) {
                                 Image(uiImage: $0)
                                     .frame(width: 30, height: 30)
                                     .aspectRatio(contentMode: .fit)
