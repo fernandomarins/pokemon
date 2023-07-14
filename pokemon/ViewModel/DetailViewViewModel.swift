@@ -24,32 +24,15 @@ class DetailViewViewModel: ObservableObject {
                     DispatchQueue.main.async { [weak self] in
                         let damageRelations = pokemon.damageRelations
                         
-                        var weakAgainstList = [String]()
-                        var strongAgainstList = [String]()
+                        let weakAgainstList = damageRelations.noDamageTo.map(\.name) + damageRelations.doubleDamageFrom.map(\.name)
+                        let strongAgainstList = damageRelations.doubleDamageTo.map(\.name) + damageRelations.noDamageFrom.map(\.name)
                         
-                        let appendNamesToWeakList = { (names: [String]) in
-                            weakAgainstList.append(contentsOf: names)
-                        }
-                        
-                        let appendNamesToStrongList = { (names: [String]) in
-                            strongAgainstList.append(contentsOf: names)
-                        }
-                        
-                        appendNamesToWeakList(damageRelations.noDamageTo.map(\.name))
-                        appendNamesToWeakList(damageRelations.doubleDamageFrom.map(\.name))
-                        
-                        appendNamesToStrongList(damageRelations.doubleDamageTo.map(\.name))
-                        appendNamesToStrongList(damageRelations.noDamageFrom.map(\.name))
-                        
-                        var strongTypesList = [UIImage]()
-                        var weakTypesList = [UIImage]()
-                        
-                        self?.createImagesList(arrayString: weakAgainstList, arrayImage: &weakTypesList)
-                        self?.createImagesList(arrayString: strongAgainstList, arrayImage: &strongTypesList)
+                        let weakTypesList = weakAgainstList.compactMap { UIImage(named: $0) }
+                        let strongTypesList = strongAgainstList.compactMap { UIImage(named: $0) }
                         
                         self?.pokemonDetailModel = PokemonDetailModel(
                             weakList: weakAgainstList,
-                            weakImages: weakTypesList,
+                            weakImages: weakTypesList ,
                             strongList: strongAgainstList,
                             strongImages: strongTypesList
                         )
@@ -59,27 +42,7 @@ class DetailViewViewModel: ObservableObject {
                 }
             }
         } catch {
-//            checkIfEmpty()
             print(error)
         }
     }
-    
-    private func createImagesList(arrayString: [String], arrayImage: inout [UIImage]) {
-        arrayString.forEach {
-            let image = UIImage(named: $0) ?? UIImage()
-            arrayImage.append(image)
-        }
-        
-//        weakAgainstList.forEach {
-//            let image = UIImage(named: $0)  ?? UIImage()
-//            weakTypesList.append(image)
-//        }
-    }
-    
-//    private func checkIfEmpty() {
-//        DispatchQueue.main.async {
-//            self.isEmptyStrong = self.strongAgainstList.isEmpty
-//            self.isEmptyWeak = self.weakAgainstList.isEmpty
-//        }
-//    }
 }
