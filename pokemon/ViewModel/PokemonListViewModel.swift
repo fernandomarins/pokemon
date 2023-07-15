@@ -78,12 +78,12 @@ class PokemonListViewModel: ObservableObject {
 
 private extension PokemonListViewModel {
     func storeData() {
-        UserDefaults.standard.set(convertArrayToData(array: pokemonCellList), forKey: PokemonListViewModel.storedKey)
+        UserDefaults.standard.set(convertObjectToData(object: pokemonCellList), forKey: PokemonListViewModel.storedKey)
     }
     
     func searchStoredData(continueHandler: @escaping (Bool) async -> Void) async {
         guard let arrayData = UserDefaults.standard.data(forKey: PokemonListViewModel.storedKey),
-              let convertedArray: [PokemonCellModel] = convertArrayFromData(data: arrayData),
+              let convertedArray: [PokemonCellModel] = convertObjectFromData(data: arrayData),
               !convertedArray.isEmpty else {
             await continueHandler(true)
             return
