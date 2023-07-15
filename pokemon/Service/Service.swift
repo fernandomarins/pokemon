@@ -18,14 +18,14 @@ class Service {
     enum EndPoints {
         static let base = "https://pokeapi.co/api/v2"
         
-        case list
+        case list(number: String)
         case pokemon(name: String)
         case type(id: String)
         
         var stringValue: String {
             switch self {
-            case .list:
-                return EndPoints.base + "/pokemon?limit=151"
+            case let .list(number):
+                return EndPoints.base + "/pokemon?limit=\(number)"
             case let .pokemon(name):
                 return EndPoints.base + "/pokemon/\(name)"
             case let .type(id):
@@ -41,8 +41,8 @@ class Service {
 
 extension Service: APIServiceProtocol {
     
-    func fetchList(completion: @escaping (Result<PokemonResult, ServiceError>) -> Void) async throws {
-        guard let url = EndPoints.list.url else {
+    func fetchList(number: String, completion: @escaping (Result<PokemonResult, ServiceError>) -> Void) async throws {
+        guard let url = EndPoints.list(number: number).url else {
             throw ServiceError.badURL
         }
         
@@ -53,6 +53,8 @@ extension Service: APIServiceProtocol {
             
             let decoder = JSONDecoder()
             let result = try decoder.decode(PokemonResult.self, from: data)
+
+            print("count: ", result.results.count)
             completion(.success(result))
         } catch {
             throw ServiceError.decodeError

@@ -14,23 +14,54 @@ class PokemonListViewModel: ObservableObject {
     @Published var pokemonList = [PokemonList]()
     @Published var pokemonNames = [String]()
     @Published var pokemonCellList = [PokemonCellModel]()
+    @Published var number = "" {
+        didSet {
+            Task {
+                await fetchPokemonList(number: number)
+                await fetchPokemonURL()
+            }
+            
+        }
+    }
     
     let service: APIServiceProtocol
     init(service: APIServiceProtocol = Service()) {
         self.service = service
     }
     
-    func fetchPokemonList() async {
+    func fetchPokemonList(number: String = "151") async {
+        DispatchQueue.main.async {
+            self.pokemonList.removeAll()
+            self.pokemonNames.removeAll()
+            self.pokemonCellList.removeAll()
+        }
+        print("------------ COMEÇO ----------------")
+        print("número pokemonLinst: ", pokemonList.count)
+        print("número pokemonNames: ", pokemonNames.count)
+        print("número pokemonCellList: ", pokemonCellList.count)
+        print("------------ COMEÇO ----------------")
+        UserDefaults.standard.removeObject(forKey: PokemonListViewModel.storedKey)
         await searchStoredData { [weak self] in
+            guard let self = self else { return }
             if $0 {
                 do {
-                    try await self?.service.fetchList { [weak self] result in
+                    try await self.service.fetchList(number: number) { [weak self] result in
+                        guard let self = self else { return }
                         switch result {
                         case .success(let list):
                             DispatchQueue.main.async { [weak self] in
                                 self?.pokemonList = list.results
-                                self?.createListNames()
+                                self?.createListNames { _ in
+                                    Task {
+                                        await self?.fetchPokemonURL()
+                                    }
+                                }
                             }
+                            print("------------ FIM ----------------")
+                            print("número pokemonLinst: ", self.pokemonList.count)
+                            print("número pokemonNames: ", self.pokemonNames.count)
+                            print("número pokemonCellList: ", self.pokemonCellList.count)
+                            print("------------ FIM ----------------")
                         case let .failure(error):
                             print(error.localizedDescription)
                         }
@@ -43,6 +74,7 @@ class PokemonListViewModel: ObservableObject {
     }
     
     func fetchPokemonURL() async {
+        print("número pokemonNames dentro de fetchURL: ", pokemonNames.count)
         for name in pokemonNames {
             do {
                 try await service.fetchItem(name: name) { [weak self] result in
@@ -95,9 +127,19 @@ private extension PokemonListViewModel {
         await continueHandler(false)
     }
     
-    func createListNames() {
+    func createListNames(completionHandler: @escaping (Bool) -> Void) {
+        print("------------ COMEÇO ----------------")
+        print("número pokemonList dentro de CREATELIST: ", pokemonList.count)
+        print("número pokemonNames dentro de CREATELIST: ", pokemonNames.count)
+        print("------------ COMEÇO ----------------")
         pokemonList.forEach {
             pokemonNames.append($0.name)
         }
+        print("------------ FIM ----------------")
+        print("número pokemonList dentro de CREATELIST: ", pokemonList.count)
+        print("número pokemonNames dentro de CREATELIST: ", pokemonNames.count)
+        print("------------ FIM ----------------")
+        completionHandler(true)
+        
     }
 }

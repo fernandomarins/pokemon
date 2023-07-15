@@ -13,7 +13,7 @@ protocol URLSessionProtocol {
 }
 
 protocol APIServiceProtocol {
-    func fetchList(completion: @escaping (Result<PokemonResult, ServiceError>) -> Void) async throws
+    func fetchList(number: String, completion: @escaping (Result<PokemonResult, ServiceError>) -> Void) async throws
     func fetchItem(name: String, completion: @escaping (Result<Pokemon, ServiceError>) -> Void) async throws
     func fetchType(id: String, completion: @escaping (Result<PokemonType, ServiceError>) -> Void) async throws
 }
