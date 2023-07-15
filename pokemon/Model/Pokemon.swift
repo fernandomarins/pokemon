@@ -40,7 +40,7 @@ struct Home: Decodable {
     }
 }
 
-struct Moves: Decodable, Hashable {
+struct Moves: Codable, Hashable {
     let move: Move
     
     static func == (lhs: Moves, rhs: Moves) -> Bool {
@@ -52,7 +52,7 @@ struct Moves: Decodable, Hashable {
     }
 }
 
-struct Move: Decodable {
+struct Move: Codable {
     let name: String
 }
 
