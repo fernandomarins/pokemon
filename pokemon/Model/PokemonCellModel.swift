@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct PokemonCellModel: Hashable {
+struct PokemonCellModel: Hashable, Codable {
     let name: String
     let type: String
     let image: URL

@@ -6,8 +6,10 @@
 //
 
 import SwiftUI
+import Foundation
 
 class PokemonListViewModel: ObservableObject {
+    static let storedKey = "pokemon"
     
     @Published var pokemonList = [PokemonList]()
     @Published var pokemonNames = [String]()
@@ -19,27 +21,31 @@ class PokemonListViewModel: ObservableObject {
     }
     
     func fetchPokemonList() async {
-        do {
-            try await service.fetchList { [weak self] result in
-                switch result {
-                case .success(let list):
-                    DispatchQueue.main.async { [weak self] in
-                        self?.pokemonList = list.results
-                        self?.createListNames()
+        await searchStoredData { [weak self] in
+            if $0 {
+                do {
+                    try await self?.service.fetchList { [weak self] result in
+                        switch result {
+                        case .success(let list):
+                            DispatchQueue.main.async { [weak self] in
+                                self?.pokemonList = list.results
+                                self?.createListNames()
+                            }
+                        case let .failure(error):
+                            print(error.localizedDescription)
+                        }
                     }
-                case let .failure(error):
-                    print(error.localizedDescription)
+                } catch {
+                    print(error)
                 }
             }
-        } catch {
-            print(error)
         }
     }
     
     func fetchPokemonURL() async {
         for name in pokemonNames {
             do {
-                try await service.fetchItem(name: name) { result in
+                try await service.fetchItem(name: name) { [weak self] result in
                     switch result {
                     case .success(let item):
                         if let url = URL(string: item.sprites.frontDefault),
@@ -57,6 +63,7 @@ class PokemonListViewModel: ObservableObject {
                             DispatchQueue.main.async { [weak self] in
                                 self?.pokemonCellList.append(pokemon)
                             }
+                            self?.storeData()
                         }
                     case let .failure(error):
                         print(error.localizedDescription)
@@ -67,8 +74,28 @@ class PokemonListViewModel: ObservableObject {
             }
         }
     }
+}
 
-    private func createListNames() {
+private extension PokemonListViewModel {
+    func storeData() {
+        UserDefaults.standard.set(convertObjectToData(object: pokemonCellList), forKey: PokemonListViewModel.storedKey)
+    }
+    
+    func searchStoredData(continueHandler: @escaping (Bool) async -> Void) async {
+        guard let arrayData = UserDefaults.standard.data(forKey: PokemonListViewModel.storedKey),
+              let convertedArray: [PokemonCellModel] = convertObjectFromData(data: arrayData),
+              !convertedArray.isEmpty else {
+            await continueHandler(true)
+            return
+        }
+        
+        DispatchQueue.main.async {  [weak self] in
+            self?.pokemonCellList = convertedArray
+        }
+        await continueHandler(false)
+    }
+    
+    func createListNames() {
         pokemonList.forEach {
             pokemonNames.append($0.name)
         }

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct ContentView: View {
     @StateObject var viewModel = PokemonListViewModel()
@@ -17,14 +18,12 @@ struct ContentView: View {
                 List {
                     ForEach(searchResults, id: \.self) { pokemon in
                         HStack {
-                            AsyncImage(url: pokemon.image) { image in
-                                image
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 100, height: 100)
-                            } placeholder: {
-                                ProgressView()
-                            }
+                            WebImage(url: pokemon.image, options: [], context: [.imageThumbnailPixelSize: CGSize.zero])
+                                .placeholder {
+                                    ProgressView()
+                                }
+                                .resizable()
+                                .frame(width: 100, height: 100)
                             Spacer()
                             VStack(alignment: .center) {
                                 Text(pokemon.name.uppercased())
@@ -65,14 +64,14 @@ struct ContentView: View {
                 await viewModel.fetchPokemonURL()
             }
         }
-        .searchable(text: $searchText, prompt: "Type the Pokémon name")
+        .searchable(text: $searchText, prompt: "Type the Pokémon name or type")
     }
     
     var searchResults: [PokemonCellModel] {
         if searchText.isEmpty {
             return viewModel.pokemonCellList
         } else {
-            return viewModel.pokemonCellList.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
+            return viewModel.pokemonCellList.filter { $0.name.localizedCaseInsensitiveContains(searchText) || $0.type.localizedCaseInsensitiveContains(searchText) }
         }
     }
 }

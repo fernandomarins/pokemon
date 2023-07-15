@@ -5,15 +5,13 @@
 //  Created by Fernando Marins on 7/13/23.
 //
 
+import Foundation
 import SwiftUI
 
 class DetailViewViewModel: ObservableObject {
-    private var weakAgainstList = [String]()
-    private var strongAgainstList = [String]()
-    @Published var strongTypesList = [UIImage]()
-    @Published var weakTypesList = [UIImage]()
-    @Published var isEmptyStrong: Bool = true
-    @Published var isEmptyWeak: Bool = true
+    static let storedKey = "pokemonDetail"
+    
+    @Published var pokemonDetailModel: PokemonDetailModel?
     
     let service: APIServiceProtocol
     init(service: APIServiceProtocol = Service()) {
@@ -21,57 +19,52 @@ class DetailViewViewModel: ObservableObject {
     }
     
     func fetchPokemonType(id: Int?) async {
-        guard let id = id else { return }
-        do {
-            try await service.fetchType(id: String(id)) { [weak self] result in
-                switch result {
-                case .success(let pokemon):
-                    DispatchQueue.main.async { [weak self] in
-                        let damageRelations = pokemon.damageRelations
-                        
-                        let appendNamesToWeakList = { (names: [String]) in
-                            self?.weakAgainstList.append(contentsOf: names)
+        await searchStoredData { [weak self] in
+            if $0 {
+                guard let id = id else { return }
+                do {
+                    try await self?.service.fetchType(id: String(id)) { [weak self] result in
+                        switch result {
+                        case .success(let pokemon):
+                            DispatchQueue.main.async { [weak self] in
+                                let damageRelations = pokemon.damageRelations
+                                
+                                let weakAgainstList = damageRelations.noDamageTo.map(\.name) + damageRelations.doubleDamageFrom.map(\.name)
+                                let strongAgainstList = damageRelations.doubleDamageTo.map(\.name) + damageRelations.noDamageFrom.map(\.name)
+                                
+                                self?.pokemonDetailModel = PokemonDetailModel(
+                                    weakList: weakAgainstList,
+                                    strongList: strongAgainstList
+                                )
+                                self?.storeData()
+                            }
+                        case let .failure(error):
+                            print(error.localizedDescription)
                         }
-                        
-                        let appendNamesToStrongList = { (names: [String]) in
-                            self?.strongAgainstList.append(contentsOf: names)
-                        }
-                        
-                        appendNamesToWeakList(damageRelations.noDamageTo.map(\.name))
-                        appendNamesToWeakList(damageRelations.doubleDamageFrom.map(\.name))
-                        
-                        appendNamesToStrongList(damageRelations.doubleDamageTo.map(\.name))
-                        appendNamesToStrongList(damageRelations.noDamageFrom.map(\.name))
-                        
-                        self?.createImagesList()
-                        self?.checkIfEmpty()
                     }
-                case let .failure(error):
-                    print(error.localizedDescription)
+                } catch {
+                    print(error)
                 }
             }
-        } catch {
-            checkIfEmpty()
-            print(error)
         }
     }
+}
+
+extension DetailViewViewModel {
+    func storeData() {
+        UserDefaults.standard.set(convertObjectToData(object: pokemonDetailModel), forKey: DetailViewViewModel.storedKey)
+    }
     
-    private func createImagesList() {
-        strongAgainstList.forEach {
-            let image = UIImage(named: $0) ?? UIImage()
-            strongTypesList.append(image)
+    func searchStoredData(continueHandler: @escaping (Bool) async -> Void) async {
+        guard let data = UserDefaults.standard.data(forKey: DetailViewViewModel.storedKey),
+              let convertedData: PokemonDetailModel = convertObjectFromData(data: data) else {
+            await continueHandler(true)
+            return
         }
         
-        weakAgainstList.forEach {
-            let image = UIImage(named: $0)  ?? UIImage()
-            weakTypesList.append(image)
+        DispatchQueue.main.async {  [weak self] in
+            self?.pokemonDetailModel = convertedData
         }
-    }
-    
-    private func checkIfEmpty() {
-        DispatchQueue.main.async {
-            self.isEmptyStrong = self.strongAgainstList.isEmpty
-            self.isEmptyWeak = self.weakAgainstList.isEmpty
-        }
+        await continueHandler(false)
     }
 }
