@@ -90,6 +90,7 @@ struct DetailView: View {
                             .background(Color.blue)
                             .cornerRadius(30)
                     }
+                    .navigationTitle("Detail")
                 }
                 VStack {
                     let viewModel = ListViewModel(
@@ -107,6 +108,25 @@ struct DetailView: View {
                             .background(Color.blue)
                             .cornerRadius(30)
                     }
+                    .navigationTitle("Detail")
+                }
+                VStack {
+                    let viewModel = StatsViewModel(
+                        name: pokemon?.name,
+                        stats: pokemon?.stats,
+                        fullImage: pokemon?.fullImage,
+                        fullImageShiny: pokemon?.fullImageShiny
+                    )
+                    NavigationLink(destination: StatsView(viewModel: viewModel)
+                    ) {
+                        Text("Stats")
+                            .font(.title)
+                            .frame(width: 200)
+                            .foregroundColor(Color.white)
+                            .background(Color.blue)
+                            .cornerRadius(30)
+                    }
+                    .navigationTitle("Detail")
                 }
                 Spacer()
             }

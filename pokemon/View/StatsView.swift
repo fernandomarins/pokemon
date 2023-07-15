@@ -1,5 +1,5 @@
 //
-//  ListView.swift
+//  StatsView.swift
 //  pokemon
 //
 //  Created by Fernando Marins on 7/15/23.
@@ -8,17 +8,13 @@
 import SwiftUI
 import SDWebImageSwiftUI
 
-struct ListView: View {
-    @StateObject var viewModel = ListViewModel()
+struct StatsView: View {
+    @StateObject var viewModel = StatsViewModel()
     @State private var imageURL: URL?
     @State private var shiny: Bool = true
     
     var body: some View {
         VStack {
-            Spacer()
-            Text(viewModel.isMoveEmpty ? "ABILITIES" : "MOVES")
-                .font(.title2)
-            Spacer()
             WebImage(url: imageURL, options: [], context: [.imageThumbnailPixelSize: CGSize.zero])
                 .placeholder {
                     ProgressView()
@@ -30,18 +26,22 @@ struct ListView: View {
                     shiny.toggle()
                 }
             Spacer()
-            List {
-                ForEach(viewModel.isMoveEmpty ? abilities : moves, id: \.self) { item in
-                    Text(item.capitalized)
+            VStack {
+                List(viewModel.statsDict?.keys.sorted() ?? [], id: \.self) { key in
+                    HStack {
+                        Text(key.capitalized)
+                            .bold()
+                        Spacer()
+                        Text("\(viewModel.statsDict?[key] ?? 0)")
+                    }
                 }
-                .background(.white)
             }
+            Spacer()
         }
-        .background(.white)
         .toolbar {
             ToolbarItem(placement: .principal) {
                 VStack {
-                    Text(viewModel.name?.uppercased() ?? "")
+                    Text(viewModel.name ?? "")
                         .font(.title)
                         .bold()
                 }
@@ -51,18 +51,10 @@ struct ListView: View {
             imageURL = viewModel.fullImage
         }
     }
-    
-    var moves: [String] {
-        return viewModel.moves ?? []
-    }
-    
-    var abilities: [String] {
-        return viewModel.abilites ?? []
-    }
 }
 
-struct ListView_Previews: PreviewProvider {
+struct StatsView_Previews: PreviewProvider {
     static var previews: some View {
-        ListView()
+        StatsView()
     }
 }

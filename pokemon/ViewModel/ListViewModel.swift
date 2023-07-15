@@ -8,11 +8,11 @@
 import SwiftUI
 
 class ListViewModel: ObservableObject {
-    @Published var name: String?
-    @Published var abilites: [String]?
-    @Published var moves: [String]?
-    @Published var fullImage: URL?
-    @Published var fullImageShiny: URL?
+    var name: String?
+    var abilites: [String]?
+    var moves: [String]?
+    var fullImage: URL?
+    var fullImageShiny: URL?
     
     var isMoveEmpty: Bool {
         moves?.isEmpty ?? true

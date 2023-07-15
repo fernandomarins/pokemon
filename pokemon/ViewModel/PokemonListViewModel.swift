@@ -59,7 +59,8 @@ class PokemonListViewModel: ObservableObject {
                                 moves: item.moves,
                                 abilities: item.abilities,
                                 fullImage: fullImageUrl,
-                                fullImageShiny: fullImageShinyUrl
+                                fullImageShiny: fullImageShinyUrl,
+                                stats: item.stats
                             )
                             DispatchQueue.main.async { [weak self] in
                                 self?.pokemonCellList.append(pokemon)
