@@ -7,11 +7,9 @@
 
 import UIKit
 
-struct PokemonDetailModel {
+struct PokemonDetailModel: Codable {
     let weakList: [String]
-    let weakImages: [UIImage]
     let strongList: [String]
-    let strongImages: [UIImage]
     
     var isWeakEmpty: Bool {
         weakList.isEmpty

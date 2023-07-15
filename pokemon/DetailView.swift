@@ -52,8 +52,8 @@ struct DetailView: View {
                         HStack(alignment: .center) {
                             Text("Strong against:")
                                 .bold()
-                            ForEach(viewModel.pokemonDetailModel?.strongImages ?? [], id: \.self) {
-                                Image(uiImage: $0)
+                            ForEach(viewModel.pokemonDetailModel?.strongList ?? [], id: \.self) {
+                                Image("\($0)")
                                     .frame(width: 30, height: 30)
                                     .aspectRatio(contentMode: .fit)
                             }
@@ -63,8 +63,8 @@ struct DetailView: View {
                         HStack(alignment: .center) {
                             Text("Weak against:")
                                 .bold()
-                            ForEach(viewModel.pokemonDetailModel?.weakImages ?? [], id: \.self) {
-                                Image(uiImage: $0)
+                            ForEach(viewModel.pokemonDetailModel?.weakList ?? [], id: \.self) {
+                                Image("\($0)")
                                     .frame(width: 30, height: 30)
                                     .aspectRatio(contentMode: .fit)
                             }
