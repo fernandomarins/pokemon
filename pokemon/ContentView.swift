@@ -64,14 +64,14 @@ struct ContentView: View {
                 await viewModel.fetchPokemonURL()
             }
         }
-        .searchable(text: $searchText, prompt: "Type the Pokémon name")
+        .searchable(text: $searchText, prompt: "Type the Pokémon name or type")
     }
     
     var searchResults: [PokemonCellModel] {
         if searchText.isEmpty {
             return viewModel.pokemonCellList
         } else {
-            return viewModel.pokemonCellList.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
+            return viewModel.pokemonCellList.filter { $0.name.localizedCaseInsensitiveContains(searchText) || $0.type.localizedCaseInsensitiveContains(searchText) }
         }
     }
 }

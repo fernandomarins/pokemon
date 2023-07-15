@@ -5,9 +5,12 @@
 //  Created by Fernando Marins on 7/13/23.
 //
 
+import Foundation
 import SwiftUI
 
 class DetailViewViewModel: ObservableObject {
+    static let storedKey = "pokemonDetail"
+    
     @Published var pokemonDetailModel: PokemonDetailModel?
     
     let service: APIServiceProtocol
@@ -45,4 +48,22 @@ class DetailViewViewModel: ObservableObject {
             print(error)
         }
     }
+}
+
+extension DetailViewViewModel {
+    func storeData() {
+//        UserDefaults.standard.set(convertObjectToData(object: pokemonDetailModel), forKey: DetailViewViewModel.storedKey)
+    }
+    
+//    func searchStoredData() {
+//        guard let data = UserDefaults.standard.data(forKey: DetailViewViewModel.storedKey),
+//              let convertedData: [PokemonDetailModel] = convertObjectFromData(data: data),
+//              !convertedArray.isEmpty else {
+//            return
+//        }
+//        
+//        DispatchQueue.main.async {  [weak self] in
+//            self?.pokemonCellList = convertedArray
+//        }
+//    }
 }

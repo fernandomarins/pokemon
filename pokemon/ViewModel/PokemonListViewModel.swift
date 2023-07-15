@@ -21,21 +21,24 @@ class PokemonListViewModel: ObservableObject {
     }
     
     func fetchPokemonList() async {
-        searchStoredData()
-        do {
-            try await service.fetchList { [weak self] result in
-                switch result {
-                case .success(let list):
-                    DispatchQueue.main.async { [weak self] in
-                        self?.pokemonList = list.results
-                        self?.createListNames()
+        await searchStoredData { [weak self] in
+            if $0 {
+                do {
+                    try await self?.service.fetchList { [weak self] result in
+                        switch result {
+                        case .success(let list):
+                            DispatchQueue.main.async { [weak self] in
+                                self?.pokemonList = list.results
+                                self?.createListNames()
+                            }
+                        case let .failure(error):
+                            print(error.localizedDescription)
+                        }
                     }
-                case let .failure(error):
-                    print(error.localizedDescription)
+                } catch {
+                    print(error)
                 }
             }
-        } catch {
-            print(error)
         }
     }
     
@@ -74,40 +77,27 @@ class PokemonListViewModel: ObservableObject {
 }
 
 private extension PokemonListViewModel {
-    
     func storeData() {
-        UserDefaults.standard.set(convertToData(array: pokemonCellList), forKey: PokemonListViewModel.storedKey)
+        UserDefaults.standard.set(convertArrayToData(array: pokemonCellList), forKey: PokemonListViewModel.storedKey)
     }
     
-    func searchStoredData() {
+    func searchStoredData(continueHandler: @escaping (Bool) async -> Void) async {
         guard let arrayData = UserDefaults.standard.data(forKey: PokemonListViewModel.storedKey),
-              let convertedArray: [PokemonCellModel] = convertFromData(data: arrayData),
+              let convertedArray: [PokemonCellModel] = convertArrayFromData(data: arrayData),
               !convertedArray.isEmpty else {
+            await continueHandler(true)
             return
         }
         
-        pokemonCellList = convertedArray
+        DispatchQueue.main.async {  [weak self] in
+            self?.pokemonCellList = convertedArray
+        }
+        await continueHandler(false)
     }
     
     func createListNames() {
         pokemonList.forEach {
             pokemonNames.append($0.name)
-        }
-    }
-    
-    func convertToData<T: Encodable>(array: [T]) -> Data? {
-        do {
-            let encoder = JSONEncoder()
-            let data = try? encoder.encode(array)
-            return data
-        }
-    }
-    
-    func convertFromData<T: Decodable>(data: Data) -> [T]? {
-        do {
-            let decoder = JSONDecoder()
-            let array = try? decoder.decode([T].self, from: data)
-            return array
         }
     }
 }
