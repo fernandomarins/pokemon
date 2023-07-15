@@ -13,6 +13,7 @@ struct Pokemon: Decodable, Identifiable {
     let sprites: Sprites
     let types: [TypeElement]
     let moves: [Moves]
+    let abilities: [Ability]
 }
 
 struct Sprites: Decodable {
@@ -50,6 +51,10 @@ struct Moves: Codable, Hashable {
     func hash(into hasher: inout Hasher) {
         hasher.combine(move.name)
     }
+}
+
+struct Ability: Codable {
+    let ability: [String: String]
 }
 
 struct Move: Codable {

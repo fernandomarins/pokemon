@@ -13,6 +13,7 @@ struct PokemonCellModel: Hashable, Codable {
     let image: URL
     let index: Int
     let moves: [Moves]
+    let abilities: [Ability]
     let fullImage: URL
     let fullImageShiny: URL
     

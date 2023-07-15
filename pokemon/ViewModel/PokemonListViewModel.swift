@@ -57,6 +57,7 @@ class PokemonListViewModel: ObservableObject {
                                 image: url,
                                 index: item.id,
                                 moves: item.moves,
+                                abilities: item.abilities,
                                 fullImage: fullImageUrl,
                                 fullImageShiny: fullImageShinyUrl
                             )
