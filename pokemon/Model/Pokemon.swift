@@ -13,6 +13,8 @@ struct Pokemon: Decodable, Identifiable {
     let sprites: Sprites
     let types: [TypeElement]
     let moves: [Moves]
+    let abilities: [Ability]
+    let stats: [StatElement]
 }
 
 struct Sprites: Decodable {
@@ -52,6 +54,10 @@ struct Moves: Codable, Hashable {
     }
 }
 
+struct Ability: Codable {
+    let ability: [String: String]
+}
+
 struct Move: Codable {
     let name: String
 }
@@ -63,4 +69,3 @@ struct TypeElement: Decodable {
 struct Species: Decodable {
     let name: String
 }
-

@@ -47,6 +47,7 @@ struct DetailView: View {
                     }
                     Spacer()
                 }
+                Spacer()
                 VStack(alignment: .center) {
                     if !(viewModel.pokemonDetailModel?.isStrongEmpty ?? false) {
                         HStack(alignment: .center) {
@@ -72,13 +73,62 @@ struct DetailView: View {
                     }
                     
                 }
-                List {
-                    ForEach(pokemon?.moves ?? [], id: \.self) { moves in
-                        Text(moves.move.name.capitalized)
+                Spacer()
+                Spacer()
+                VStack {
+                    let viewModel = ListViewModel(
+                        name: pokemon?.name,
+                        abilites: pokemon?.abilities.compactMap { $0.ability["name"] },
+                        fullImage: pokemon?.fullImage,
+                        fullImageShiny: pokemon?.fullImageShiny
+                    )
+                    NavigationLink(destination: ListView(viewModel: viewModel)) {
+                        Text("Moves")
+                            .font(.title)
+                            .frame(width: 200)
+                            .foregroundColor(Color.white)
+                            .background(Color.blue)
+                            .cornerRadius(30)
                     }
-                    .background(.white)
+                    .navigationTitle("Detail")
                 }
-                .background(.white)
+                VStack {
+                    let viewModel = ListViewModel(
+                        name: pokemon?.name,
+                        moves: pokemon?.moves.map({ $0.move.name }),
+                        fullImage: pokemon?.fullImage,
+                        fullImageShiny: pokemon?.fullImageShiny
+                    )
+                    NavigationLink(destination: ListView(viewModel: viewModel)
+                    ) {
+                        Text("Abilities")
+                            .font(.title)
+                            .frame(width: 200)
+                            .foregroundColor(Color.white)
+                            .background(Color.blue)
+                            .cornerRadius(30)
+                    }
+                    .navigationTitle("Detail")
+                }
+                VStack {
+                    let viewModel = StatsViewModel(
+                        name: pokemon?.name,
+                        stats: pokemon?.stats,
+                        fullImage: pokemon?.fullImage,
+                        fullImageShiny: pokemon?.fullImageShiny
+                    )
+                    NavigationLink(destination: StatsView(viewModel: viewModel)
+                    ) {
+                        Text("Stats")
+                            .font(.title)
+                            .frame(width: 200)
+                            .foregroundColor(Color.white)
+                            .background(Color.blue)
+                            .cornerRadius(30)
+                    }
+                    .navigationTitle("Detail")
+                }
+                Spacer()
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
