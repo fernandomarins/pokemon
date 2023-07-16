@@ -15,6 +15,8 @@ struct StatsView: View {
     
     var body: some View {
         VStack {
+            Text("STATS")
+                .font(.title2)
             WebImage(url: imageURL, options: [], context: [.imageThumbnailPixelSize: CGSize.zero])
                 .placeholder {
                     ProgressView()
@@ -41,7 +43,7 @@ struct StatsView: View {
         .toolbar {
             ToolbarItem(placement: .principal) {
                 VStack {
-                    Text(viewModel.name ?? "")
+                    Text(viewModel.name?.uppercased() ?? "")
                         .font(.title)
                         .bold()
                 }

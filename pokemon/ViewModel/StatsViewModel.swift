@@ -24,14 +24,12 @@ class StatsViewModel: ObservableObject {
         self.fullImage = fullImage
         self.fullImageShiny = fullImageShiny
     }
-    
+}
+
+private extension StatsViewModel {
     func createStats(stats: [StatElement]) -> [String: Int] {
-        var dict = [String: Int]()
-        stats.forEach { stat in
-            let baseStat = stat.baseStat
-            let statName = stat.stat.name
-            dict[statName] = baseStat
+        return stats.reduce(into: [:]) { dict, stat in
+            dict[stat.stat.name] = stat.baseStat
         }
-        return dict
     }
 }
