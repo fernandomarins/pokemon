@@ -49,7 +49,7 @@ struct DetailView: View {
                 }
                 Spacer()
                 VStack(alignment: .center) {
-                    if !(viewModel.pokemonDetailModel?.isStrongEmpty ?? false) {
+                    if !(viewModel.pokemonDetailModel?.isStrongEmpty ?? true) {
                         HStack(alignment: .center) {
                             Text("Strong against:")
                                 .bold()
@@ -59,8 +59,14 @@ struct DetailView: View {
                                     .aspectRatio(contentMode: .fit)
                             }
                         }
+                    } else {
+                        Text("No information about which type of Pokémon \(pokemon?.name.capitalized ?? "this Pokémon") is strong against.")
+                            .bold()
+                            .multilineTextAlignment(.center)
+                            .padding()
                     }
-                    if !(viewModel.pokemonDetailModel?.isWeakEmpty ?? false) {
+                    
+                    if !(viewModel.pokemonDetailModel?.isWeakEmpty ?? true) {
                         HStack(alignment: .center) {
                             Text("Weak against:")
                                 .bold()
@@ -70,6 +76,11 @@ struct DetailView: View {
                                     .aspectRatio(contentMode: .fit)
                             }
                         }
+                    } else {
+                        Text("No information about which type of Pokémon \(pokemon?.name.capitalized ?? "this Pokémon") is weak against.")
+                            .bold()
+                            .multilineTextAlignment(.center)
+                            .padding()
                     }
                     
                 }
