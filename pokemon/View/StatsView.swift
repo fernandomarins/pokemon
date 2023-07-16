@@ -7,11 +7,13 @@
 
 import SwiftUI
 import SDWebImageSwiftUI
+import Charts
 
 struct StatsView: View {
     @StateObject var viewModel = StatsViewModel()
     @State private var imageURL: URL?
     @State private var shiny: Bool = true
+    @State private var animateChart = false
     
     var body: some View {
         VStack {
@@ -28,16 +30,25 @@ struct StatsView: View {
                     shiny.toggle()
                 }
             Spacer()
-            VStack {
-                List(viewModel.statsDict?.keys.sorted() ?? [], id: \.self) { key in
-                    HStack {
-                        Text(key.capitalized)
-                            .bold()
-                        Spacer()
-                        Text("\(viewModel.statsDict?[key] ?? 0)")
+            Chart {
+                ForEach(viewModel.statsDict?
+                    .keys
+                    .sorted(by: { viewModel.statsDict?[$0] ?? 0 > viewModel.statsDict?[$1] ?? 0 }) ?? [], id: \.self) { key in
+                        BarMark(
+                            x: .value("", key.capitalized),
+                            y: .value("", viewModel.statsDict?[key] ?? 0)
+                        )
+                        .foregroundStyle(by: .value("", key))
+                        .annotation(position: .top) {
+                            Text("\(viewModel.statsDict?[key] ?? 0)")
+                                .font(.system(size: 12, weight: .bold, design: .rounded))
+                                .foregroundColor(.gray)
+                        }
                     }
-                }
+                    
             }
+            .chartXAxis(.hidden)
+            .padding()
             Spacer()
         }
         .toolbar {
