@@ -19,16 +19,20 @@ struct ListView: View {
             Text(viewModel.isMoveEmpty ? "ABILITIES" : "MOVES")
                 .font(.title2)
             Spacer()
-            WebImage(url: imageURL, options: [], context: [.imageThumbnailPixelSize: CGSize.zero])
-                .placeholder {
-                    ProgressView()
-                }
-                .resizable()
-                .frame(width: 100, height: 100)
-                .onTapGesture {
-                    imageURL = shiny ? viewModel.fullImageShiny : viewModel.fullImage
-                    shiny.toggle()
-                }
+            WebImage(
+                url: imageURL,
+                options: [],
+                context: [.imageThumbnailPixelSize: CGSize.zero]
+            )
+            .placeholder {
+                ProgressView()
+            }
+            .resizable()
+            .frame(width: 100, height: 100)
+            .onTapGesture {
+                imageURL = shiny ? viewModel.fullImageShiny : viewModel.fullImage
+                shiny.toggle()
+            }
             Spacer()
             List {
                 ForEach(viewModel.isMoveEmpty ? abilities : moves, id: \.self) { item in

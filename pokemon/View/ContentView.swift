@@ -18,12 +18,16 @@ struct ContentView: View {
                 List {
                     ForEach(searchResults, id: \.self) { pokemon in
                         HStack {
-                            WebImage(url: pokemon.image, options: [], context: [.imageThumbnailPixelSize: CGSize.zero])
-                                .placeholder {
-                                    ProgressView()
-                                }
-                                .resizable()
-                                .frame(width: 100, height: 100)
+                            WebImage(
+                                url: pokemon.image,
+                                options: [],
+                                context: [.imageThumbnailPixelSize: CGSize.zero]
+                            )
+                            .placeholder {
+                                ProgressView()
+                            }
+                            .resizable()
+                            .frame(width: 100, height: 100)
                             Spacer()
                             VStack(alignment: .center) {
                                 Text(pokemon.name.uppercased())

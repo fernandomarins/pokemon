@@ -25,7 +25,7 @@ class Service {
         var stringValue: String {
             switch self {
             case .list:
-                return EndPoints.base + "/pokemon?limit=300"
+                return EndPoints.base + "/pokemon?limit=500"
             case let .pokemon(name):
                 return EndPoints.base + "/pokemon/\(name)"
             case let .type(id):

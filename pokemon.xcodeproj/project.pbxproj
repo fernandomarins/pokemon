@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5505CB512A5F4CD9007CAEC6 /* pokemonApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5505CB502A5F4CD9007CAEC6 /* pokemonApp.swift */; };
+		5505CB512A5F4CD9007CAEC6 /* PokemonApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5505CB502A5F4CD9007CAEC6 /* PokemonApp.swift */; };
 		5505CB532A5F4CD9007CAEC6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5505CB522A5F4CD9007CAEC6 /* ContentView.swift */; };
 		5505CB552A5F4CDA007CAEC6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5505CB542A5F4CDA007CAEC6 /* Assets.xcassets */; };
 		5505CB582A5F4CDA007CAEC6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5505CB572A5F4CDA007CAEC6 /* Preview Assets.xcassets */; };
@@ -53,7 +53,7 @@
 
 /* Begin PBXFileReference section */
 		5505CB4D2A5F4CD9007CAEC6 /* pokemon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pokemon.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		5505CB502A5F4CD9007CAEC6 /* pokemonApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pokemonApp.swift; sourceTree = "<group>"; };
+		5505CB502A5F4CD9007CAEC6 /* PokemonApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonApp.swift; sourceTree = "<group>"; };
 		5505CB522A5F4CD9007CAEC6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		5505CB542A5F4CDA007CAEC6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5505CB572A5F4CDA007CAEC6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -130,7 +130,7 @@
 		5505CB4F2A5F4CD9007CAEC6 /* pokemon */ = {
 			isa = PBXGroup;
 			children = (
-				5505CB502A5F4CD9007CAEC6 /* pokemonApp.swift */,
+				5505CB502A5F4CD9007CAEC6 /* PokemonApp.swift */,
 				55541ACF2A632C820027FAA2 /* View */,
 				555D52D42A60311E00349EC2 /* ViewModel */,
 				555D52D22A60310900349EC2 /* Service */,
@@ -359,7 +359,7 @@
 			files = (
 				5505CB532A5F4CD9007CAEC6 /* ContentView.swift in Sources */,
 				555D52D62A60396400349EC2 /* DetailView.swift in Sources */,
-				5505CB512A5F4CD9007CAEC6 /* pokemonApp.swift in Sources */,
+				5505CB512A5F4CD9007CAEC6 /* PokemonApp.swift in Sources */,
 				5505CB7B2A5F4CF0007CAEC6 /* Service.swift in Sources */,
 				55541ADB2A633BA30027FAA2 /* StatsViewModel.swift in Sources */,
 				55541AD72A6339E50027FAA2 /* StatsView.swift in Sources */,

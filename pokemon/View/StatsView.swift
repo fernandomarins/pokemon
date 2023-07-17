@@ -13,22 +13,25 @@ struct StatsView: View {
     @StateObject var viewModel = StatsViewModel()
     @State private var imageURL: URL?
     @State private var shiny: Bool = true
-    @State private var animateChart = false
     
     var body: some View {
         VStack {
             Text("STATS")
                 .font(.title2)
-            WebImage(url: imageURL, options: [], context: [.imageThumbnailPixelSize: CGSize.zero])
-                .placeholder {
-                    ProgressView()
-                }
-                .resizable()
-                .frame(width: 100, height: 100)
-                .onTapGesture {
-                    imageURL = shiny ? viewModel.fullImageShiny : viewModel.fullImage
-                    shiny.toggle()
-                }
+            WebImage(
+                url: imageURL,
+                options: [],
+                context: [.imageThumbnailPixelSize: CGSize.zero]
+            )
+            .placeholder {
+                ProgressView()
+            }
+            .resizable()
+            .frame(width: 100, height: 100)
+            .onTapGesture {
+                imageURL = shiny ? viewModel.fullImageShiny : viewModel.fullImage
+                shiny.toggle()
+            }
             Spacer()
             Chart {
                 ForEach(viewModel.statsDict?

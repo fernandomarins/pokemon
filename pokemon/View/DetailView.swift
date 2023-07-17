@@ -18,16 +18,20 @@ struct DetailView: View {
     var body: some View {
         NavigationStack {
             VStack(alignment: .center, spacing: 10) {
-                WebImage(url: imageURL, options: [], context: [.imageThumbnailPixelSize: CGSize.zero])
-                    .placeholder {
-                        ProgressView()
-                    }
-                    .resizable()
-                    .frame(width: 250, height: 250)
-                    .onTapGesture {
-                        imageURL = shiny ? pokemon?.fullImageShiny : pokemon?.fullImage
-                        shiny.toggle()
-                    }
+                WebImage(
+                    url: imageURL,
+                    options: [],
+                    context: [.imageThumbnailPixelSize: CGSize.zero]
+                )
+                .placeholder {
+                    ProgressView()
+                }
+                .resizable()
+                .frame(width: 250, height: 250)
+                .onTapGesture {
+                    imageURL = shiny ? pokemon?.fullImageShiny : pokemon?.fullImage
+                    shiny.toggle()
+                }
                 HStack {
                     Spacer()
                     HStack {

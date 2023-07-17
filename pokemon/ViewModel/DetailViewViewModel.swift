@@ -10,7 +10,7 @@ import SwiftUI
 
 class DetailViewViewModel: ObservableObject {
     static let storedKey = "pokemonDetail"
-    
+
     @Published var pokemonDetailModel: PokemonDetailModel?
     
     let service: APIServiceProtocol

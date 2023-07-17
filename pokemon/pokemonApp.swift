@@ -9,8 +9,7 @@ import SwiftUI
 import SDWebImageSVGCoder
 
 @main
-struct pokemonApp: App {
-    
+struct PokemonApp: App {
     init() {
         setUpDependencies() // Initialize SVGCoder
     }
@@ -22,7 +21,7 @@ struct pokemonApp: App {
     }
 }
 
-private extension pokemonApp {
+private extension PokemonApp {
     func setUpDependencies() {
         SDImageCodersManager.shared.addCoder(SDImageSVGCoder.shared)
     }
